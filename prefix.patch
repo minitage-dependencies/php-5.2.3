@@ -1,0 +1,72 @@
+diff -ur php-5.2.3/configure php-5.2.3.prefix/configure
+--- php-5.2.3/configure	2007-05-30 20:50:52.000000000 +0200
++++ php-5.2.3.prefix/configure	2010-02-01 14:29:26.000000000 +0100
+@@ -5725,8 +5725,13 @@
+     { echo "configure: error: Please note that Apache version >= 2.0.40 is required" 1>&2; exit 1; }
+   fi
+ 
+-  APXS_LIBEXECDIR='$(INSTALL_ROOT)'`$APXS -q LIBEXECDIR`
+-  if test -z `$APXS -q SYSCONFDIR`; then
++
++  APXS_LIBEXECDIR="$MINITAGE_INSTALLDIR"
++  if test -n "$MINITAGE_INSTALLDIR"; then
++    INSTALL_IT="\$(mkinstalldirs) '$MINITAGE_INSTALLDIR' && \
++                 $APXS -S LIBEXECDIR='$MINITAGE_INSTALLDIR' \
++                       -i -n php5" 
++  elif test -z `$APXS -q SYSCONFDIR`; then
+     INSTALL_IT="\$(mkinstalldirs) '$APXS_LIBEXECDIR' && \
+                  $APXS -S LIBEXECDIR='$APXS_LIBEXECDIR' \
+                        -i -n php5"
+@@ -5737,7 +5742,8 @@
+                  $APXS -S LIBEXECDIR='$APXS_LIBEXECDIR' \
+                        -S SYSCONFDIR='$APXS_SYSCONFDIR' \
+                        -i -a -n php5"
+-  fi
++  fi 
++
+ 
+   case $host_alias in
+   *aix*)
+@@ -6555,8 +6561,12 @@
+     { echo "configure: error: Please note that Apache version >= 2.0.44 is required" 1>&2; exit 1; }
+   fi
+ 
+-  APXS_LIBEXECDIR='$(INSTALL_ROOT)'`$APXS -q LIBEXECDIR`
+-  if test -z `$APXS -q SYSCONFDIR`; then
++  APXS_LIBEXECDIR="$MINITAGE_INSTALLDIR"
++  if test -n "$MINITAGE_INSTALLDIR"; then
++    INSTALL_IT="\$(mkinstalldirs) '$MINITAGE_INSTALLDIR' && \
++                 $APXS -S LIBEXECDIR='$MINITAGE_INSTALLDIR' \
++                       -i -n php5" 
++  elif test -z `$APXS -q SYSCONFDIR`; then
+     INSTALL_IT="\$(mkinstalldirs) '$APXS_LIBEXECDIR' && \
+                  $APXS -S LIBEXECDIR='$APXS_LIBEXECDIR' \
+                        -i -n php5"
+@@ -6567,7 +6577,8 @@
+                  $APXS -S LIBEXECDIR='$APXS_LIBEXECDIR' \
+                        -S SYSCONFDIR='$APXS_SYSCONFDIR' \
+                        -i -a -n php5"
+-  fi
++  fi 
++ 
+ 
+   case $host_alias in
+   *aix*)
+diff -ur php-5.2.3/sapi/apache2handler/config.m4 php-5.2.3.prefix/sapi/apache2handler/config.m4
+--- php-5.2.3/sapi/apache2handler/config.m4	2005-09-01 16:33:47.000000000 +0200
++++ php-5.2.3.prefix/sapi/apache2handler/config.m4	2010-02-01 14:30:34.000000000 +0100
+@@ -64,8 +64,12 @@
+     AC_MSG_ERROR([Please note that Apache version >= 2.0.44 is required])
+   fi
+ 
+-  APXS_LIBEXECDIR='$(INSTALL_ROOT)'`$APXS -q LIBEXECDIR`
+-  if test -z `$APXS -q SYSCONFDIR`; then
++  APXS_LIBEXECDIR="$MINITAGE_INSTALLDIR"
++  if test -n "$MINITAGE_INSTALLDIR"; then
++    INSTALL_IT="\$(mkinstalldirs) '$MINITAGE_INSTALLDIR' && \
++                 $APXS -S LIBEXECDIR='$MINITAGE_INSTALLDIR' \
++                       -i -n php5" 
++  elif test -z `$APXS -q SYSCONFDIR`; then
+     INSTALL_IT="\$(mkinstalldirs) '$APXS_LIBEXECDIR' && \
+                  $APXS -S LIBEXECDIR='$APXS_LIBEXECDIR' \
+                        -i -n php5"
